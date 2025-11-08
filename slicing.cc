@@ -96,6 +96,45 @@ main(int argc, char* argv[])
     cmd.AddValue("prbVideo", "Number of PRBs allocated to Video traffic (BWP1 in Band 2)", prbVideo);
     cmd.AddValue("prbGaming", "Number of PRBs allocated to Gaming traffic (BWP2 in Band 2)", prbGaming);
     cmd.AddValue("referenceNumerology", "Reference numerology mu for PRB size (0 -> 15 kHz)", referenceNumerology);
+// ----------- Load Configuration From File ------------
+std::string configFile = "config.txt";
+cmd.AddValue("configFile", "Path to configuration text file", configFile);
+
+std::map<std::string, std::string> configMap;
+std::ifstream cfg(configFile);
+if (cfg.is_open()) {
+    std::string line;
+    while (std::getline(cfg, line)) {
+        if (line.empty() || line[0] == '#') continue;
+        std::istringstream iss(line);
+        std::string key, value;
+        if (std::getline(iss, key, '=') && std::getline(iss, value)) {
+            configMap[key] = value;
+        }
+    }
+    cfg.close();
+}
+
+// Helper to safely read config or fallback to defaults
+auto getConf = [&](const std::string& key, const std::string& def) {
+    return (configMap.count(key) ? configMap[key] : def);
+};
+
+// ----------- Override default variables if present ------------
+gNbNum = std::stoi(getConf("gNbNum", std::to_string(gNbNum)));
+ueNum = std::stoi(getConf("ueNum", std::to_string(ueNum)));
+
+centralFrequencyBand1 = std::stod(getConf("centralFrequencyBand1", std::to_string(centralFrequencyBand1)));
+centralFrequencyBand2 = std::stod(getConf("centralFrequencyBand2", std::to_string(centralFrequencyBand2)));
+referenceNumerology = std::stoi(getConf("referenceNumerology", std::to_string(referenceNumerology)));
+
+simTimeMs = std::stoi(getConf("simTimeMs", std::to_string(simTimeMs)));
+udpAppStartTimeMs = std::stoi(getConf("udpAppStartTimeMs", std::to_string(udpAppStartTimeMs)));
+
+// Traffic slice PRBs
+uint32_t prbUrllc = std::stoi(getConf("prbUrllc", "50"));
+uint32_t prbEmbb = std::stoi(getConf("prbEmbb", "50"));
+uint32_t prbMmtc = std::stoi(getConf("prbMmtc", "50"));
 
     cmd.Parse(argc, argv);
 
