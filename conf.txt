@@ -1,0 +1,40 @@
+# Configuration file for 5G NR simulation
+# Format: parameter_name = value
+
+# Network topology parameters
+gNbNum = 4
+ueNum = 4
+
+# Traffic parameters - Video (DL)
+udpPacketSizeVideo = 100
+lambdaVideo = 50
+enableVideo = true
+
+# Traffic parameters - Voice (DL)
+udpPacketSizeVoice = 1252
+lambdaVoice = 100
+enableVoice = true
+
+# Traffic parameters - Gaming (UL)
+udpPacketSizeGaming = 500
+lambdaGaming = 250
+enableGaming = true
+
+# Simulation timing parameters
+simTimeMs = 1400
+udpAppStartTimeMs = 400
+
+# Band 1 configuration (TDD)
+centralFrequencyBand1 = 28e9
+bandwidthBand1 = 100e6
+
+# Band 2 configuration (FDD)
+centralFrequencyBand2 = 28.2e9
+bandwidthBand2 = 100e6
+
+# Power configuration
+totalTxPower = 4
+
+# Output configuration
+simTag = default
+outputDir = ./results

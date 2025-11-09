@@ -1,0 +1,12 @@
+gNbNum=4
+ueNum=4
+trafficTypes=urllc,embb,mmtc
+prbUrllc=50
+prbEmbb=100
+prbMmtc=20
+centralFrequencyBand1=28e9
+centralFrequencyBand2=28.2e9
+referenceNumerology=0
+simTimeMs=1400
+udpAppStartTimeMs=400
+
