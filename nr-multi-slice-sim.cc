@@ -9,7 +9,7 @@
 #include "ns3/mobility-module.h"
 #include "ns3/nr-module.h"
 #include "ns3/point-to-point-module.h"
-#include <cmath> // pow
+#include <cmath> 
 
 using namespace ns3;
 
@@ -160,9 +160,6 @@ uint32_t prbMmtc = std::stoi(getConf("prbMmtc", "50"));
     randomStream += gridScenario.AssignStreams(randomStream);
     gridScenario.CreateScenario();
 
-    /*
-     * TODO: Add a print, or a plot, that shows the scenario.
-     */
     Ptr<NrPointToPointEpcHelper> nrEpcHelper = CreateObject<NrPointToPointEpcHelper>();
     Ptr<IdealBeamformingHelper> idealBeamformingHelper = CreateObject<IdealBeamformingHelper>();
     Ptr<NrHelper> nrHelper = CreateObject<NrHelper>();
@@ -185,7 +182,7 @@ uint32_t prbMmtc = std::stoi(getConf("prbMmtc", "50"));
     // Convert PRBs to bandwidth (Hz)
     // 1 PRB = 12 subcarriers. SCS = 15 kHz * 2^mu.
     double scsHz = 15000.0 * std::pow(2.0, static_cast<double>(referenceNumerology));
-    double bandwidthPerPrbHz = 12.0 * scsHz; // e.g., 180 kHz for mu=0
+    double bandwidthPerPrbHz = 12.0 * scsHz; 
 
     // Bandwidth 1 corresponds to BWP0 (Voice)
     bandwidthBand1 = static_cast<double>(prbVoice) * bandwidthPerPrbHz;
@@ -212,7 +209,7 @@ uint32_t prbMmtc = std::stoi(getConf("prbMmtc", "50"));
 
     bandConfFdd.m_numBwp = 2; // Here, bandFdd will have 2 BWPs
 
-    // By using the configuration created, it is time to make the operation bands
+    // make the operation bands using the configuration
     OperationBandInfo bandTdd = ccBwpCreator.CreateOperationBandContiguousCc(bandConfTdd);
     OperationBandInfo bandFdd = ccBwpCreator.CreateOperationBandContiguousCc(bandConfFdd);
     // Create the same spectrum channel for both bands with different frequencies
@@ -468,7 +465,7 @@ uint32_t prbMmtc = std::stoi(getConf("prbMmtc", "50"));
     gamingTft->Add(ulpfGaming);
 
     /*
-     * Let's install the applications!
+     * installing the applications
      */
     ApplicationContainer clientApps;
 
@@ -536,14 +533,7 @@ uint32_t prbMmtc = std::stoi(getConf("prbMmtc", "50"));
     nrHelper->EnableTraces();
     Simulator::Stop(MilliSeconds(simTimeMs));
     Simulator::Run();
-
-    /*
-     * To check what was installed in the memory, i.e., BWPs of gNB Device, and its configuration.
-     * Example is: Node 1 -> Device 0 -> BandwidthPartMap -> {0,1} BWPs -> NrGnbPhy -> Numerology,
-    GtkConfigStore config;
-    config.ConfigureAttributes ();
-    */
-
+    
     // Print per-flow statistics
     monitor->CheckForLostPackets();
     Ptr<Ipv4FlowClassifier> classifier =
